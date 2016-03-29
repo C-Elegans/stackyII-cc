@@ -9,6 +9,8 @@
 #include "ast.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
+char* names[] = {"HEAD","INT","ASSIGN","IDENTIFIER"};
 AstNode* new_tail_node(node_type type, void* data,size_t datasize){
 	AstNode* node = malloc(sizeof(AstNode));
 	node->type = type;
@@ -18,6 +20,19 @@ AstNode* new_tail_node(node_type type, void* data,size_t datasize){
 	node->parent = NULL;
 	node->numchildren = 0;
 	node->childrensize = 0;
+	return node;
+}
+AstNode* new_nodev(node_type type,void* data,size_t datasize, AstNode* child, ...){
+	AstNode* node = new_tail_node(type, data,datasize );
+	node_append(node, child);
+	va_list argp;
+	va_start(argp,child);
+	AstNode* p;
+	while((p = va_arg(argp, AstNode*)) != NULL)
+		node_append(node, p);
+	
+	va_end(argp);
+	
 	return node;
 }
 AstNode* new_node(node_type type,void* data,size_t datasize, AstNode** children){
@@ -72,22 +87,27 @@ void node_free(AstNode* node){
 	}
 	free(node);
 }
-void print_node(AstNode* node){
-	printf("type: %d, children: %d ",node->type,node->numchildren);
+void print_node(AstNode* node,int depth){
+	for(int i=0;i<depth;i++)printf("\t");
+	printf("type: %s, children: %d ",names[node->type],node->numchildren);
 	switch (node->type) {
 		case HEADT:
 			break;
 		case INTT:
 			printf("int: %d",*(int*)(node->data));
 			break;
+		case IDENTIFIERT:
+			printf("id: %s",(char*)node->data);
+			break;
 		default:
 			break;
 	}
-	printf("\n\t");
+	printf("\n");
+	
 	AstNode** child = node->children;
 	if(child != NULL){
 		while (*child != NULL) {
-			print_node(*child);
+			print_node(*child,depth+1);
 			child++;
 		}
 	}

@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "main.h"
+#include "y.tab.h"
 AstNode* tree_head;
 extern int yyparse();
 extern FILE* yyin;
@@ -28,5 +29,6 @@ int main(int argc,char** argv){
 	do {
 		yyparse();
 	} while (!feof(yyin));
-	print_node(tree_head);
+	
+	print_node(tree_head,0);
 }
