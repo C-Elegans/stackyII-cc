@@ -8,23 +8,46 @@
 
 /* Begin PBXBuildFile section */
 		0AEE3EFB1CAAD81B006F0348 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE3EFA1CAAD81B006F0348 /* main.c */; };
+		0AEE3F031CAAD845006F0348 /* lex.l in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE3F011CAAD844006F0348 /* lex.l */; };
+		0AEE3F061CAADC24006F0348 /* test.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0AEE3F051CAADB78006F0348 /* test.txt */; };
+		0AEE3F081CAAF560006F0348 /* parser.y in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE3F071CAAF560006F0348 /* parser.y */; };
+		0AEE3F0C1CAB1054006F0348 /* ast.c in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE3F0A1CAB1054006F0348 /* ast.c */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		0AEE3F091CAAFDA0006F0348 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.yacc;
+			fileType = sourcecode.yacc;
+			isEditable = 1;
+			outputFiles = (
+			);
+			script = "# $(YACC)\n";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		0AEE3EF51CAAD81B006F0348 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
 			files = (
+				0AEE3F061CAADC24006F0348 /* test.txt in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0AEE3EF71CAAD81B006F0348 /* stackyII-cc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "stackyII-cc"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AEE3EFA1CAAD81B006F0348 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		0AEE3F011CAAD844006F0348 /* lex.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = lex.l; sourceTree = "<group>"; };
+		0AEE3F051CAADB78006F0348 /* test.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.txt; sourceTree = "<group>"; };
+		0AEE3F071CAAF560006F0348 /* parser.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = parser.y; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		0AEE3F0A1CAB1054006F0348 /* ast.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ast.c; sourceTree = "<group>"; };
+		0AEE3F0B1CAB1054006F0348 /* ast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ast.h; sourceTree = "<group>"; };
+		0AEE3F0D1CAB1BB9006F0348 /* main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +81,12 @@
 			isa = PBXGroup;
 			children = (
 				0AEE3EFA1CAAD81B006F0348 /* main.c */,
+				0AEE3F0D1CAB1BB9006F0348 /* main.h */,
+				0AEE3F011CAAD844006F0348 /* lex.l */,
+				0AEE3F051CAADB78006F0348 /* test.txt */,
+				0AEE3F071CAAF560006F0348 /* parser.y */,
+				0AEE3F0A1CAB1054006F0348 /* ast.c */,
+				0AEE3F0B1CAB1054006F0348 /* ast.h */,
 			);
 			path = "stackyII-cc";
 			sourceTree = "<group>";
@@ -74,6 +103,7 @@
 				0AEE3EF51CAAD81B006F0348 /* CopyFiles */,
 			);
 			buildRules = (
+				0AEE3F091CAAFDA0006F0348 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -118,6 +148,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AEE3F081CAAF560006F0348 /* parser.y in Sources */,
+				0AEE3F031CAAD845006F0348 /* lex.l in Sources */,
+				0AEE3F0C1CAB1054006F0348 /* ast.c in Sources */,
 				0AEE3EFB1CAAD81B006F0348 /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
