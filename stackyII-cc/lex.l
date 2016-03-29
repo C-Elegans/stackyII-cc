@@ -14,7 +14,7 @@
 [0-9]+           { yylval.ival = atoi(yytext);printf("int: %s\n",yytext); return INT; }
 int {printf("int\n");return INTDEC;};
 [a-zA-Z0-9]+     { yylval.sval = strdup(yytext);printf("id: %s\n",yytext); return IDENTIFIER;}
-
+\; {return SEMICOLON;}
 \+ {return PLUS; };
 = {return EQUALS;};
 %%

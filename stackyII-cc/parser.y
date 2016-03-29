@@ -19,18 +19,19 @@ void yyerror(const char* s);
 %token <sval> IDENTIFIER
 %token PLUS ASSIGN EQUALS
 %token INTDEC
+%token SEMICOLON
 
 %%
 
 start:
-	start vardec
-	|start assign
-	|vardec
-	|assign
-
-
+	|statement
 ;
-
+statement
+	:vardec
+	|statement vardec
+	|assign
+	|statement assign
+;
 vardec:
 	INTDEC IDENTIFIER {printf("vardec: %s\n",$2);node_append(tree_head,new_nodev(VARDECT,NULL,0,new_tail_node(IDENTIFIERT,$2,strlen($2)+1)));}
 	;
