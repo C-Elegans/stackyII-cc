@@ -8,7 +8,7 @@
 
 #ifndef ast_h
 #define ast_h
-typedef enum type {HEADT=0,INTT,ASSIGNT,IDENTIFIERT} node_type;
+typedef enum type {HEADT=0,INTT,ASSIGNT,IDENTIFIERT,VARDECT} node_type;
 #include <stdio.h>
 typedef struct ast_node{
 	node_type type;

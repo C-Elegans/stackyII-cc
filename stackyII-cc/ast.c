@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
-char* names[] = {"HEAD","INT","ASSIGN","IDENTIFIER"};
+char* names[] = {"HEAD","INT","ASSIGN","IDENTIFIER","VARDEC"};
 AstNode* new_tail_node(node_type type, void* data,size_t datasize){
 	AstNode* node = malloc(sizeof(AstNode));
 	node->type = type;

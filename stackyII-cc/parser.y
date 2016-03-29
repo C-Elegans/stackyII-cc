@@ -21,12 +21,18 @@ void yyerror(const char* s);
 %token INTDEC
 
 %%
+
 start:
-	assign
+	start vardec
+	|start assign
 	|vardec
+	|assign
+
+
 ;
+
 vardec:
-	INTDEC IDENTIFIER
+	INTDEC IDENTIFIER {printf("vardec: %s\n",$2);node_append(tree_head,new_nodev(VARDECT,NULL,0,new_tail_node(IDENTIFIERT,$2,strlen($2)+1)));}
 	;
 assign:
 	IDENTIFIER EQUALS INT {printf("%s = %d\n",$1,$3);node_append(tree_head,new_nodev(ASSIGNT,NULL,0,new_tail_node(IDENTIFIERT,$1,strlen($1)+1),
