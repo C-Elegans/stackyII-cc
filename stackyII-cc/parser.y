@@ -29,10 +29,10 @@ start:
 	statement {process_tree($1);}
 ;
 statement:
-	 statement assign {$$=makeNode(HEAD,NULL,0,$1,$2,NULL);}
-	| statement vardec {$$=makeNode(HEAD,NULL,0,$1,$2,NULL);}
-	| assign
-	| vardec
+	 statement assign SEMICOLON{$$=makeNode(HEAD,NULL,0,$1,$2,NULL);}
+	| statement vardec SEMICOLON {$$=makeNode(HEAD,NULL,0,$1,$2,NULL);}
+	| assign SEMICOLON
+	| vardec SEMICOLON
 ;
 vardec:
 	INTDEC identifier {$$=makeNode(VARDECT,NULL,0,$2,NULL);}
