@@ -83,10 +83,10 @@
 				0AEE3EFA1CAAD81B006F0348 /* main.c */,
 				0AEE3F0D1CAB1BB9006F0348 /* main.h */,
 				0AEE3F011CAAD844006F0348 /* lex.l */,
-				0AEE3F051CAADB78006F0348 /* test.txt */,
 				0AEE3F071CAAF560006F0348 /* parser.y */,
 				0AEE3F0E1CAB34A7006F0348 /* ast.c */,
 				0AEE3F0F1CAB34A7006F0348 /* ast.h */,
+				0AEE3F051CAADB78006F0348 /* test.txt */,
 			);
 			path = "stackyII-cc";
 			sourceTree = "<group>";

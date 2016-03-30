@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
-char* names[] = {"HEAD","ASSIGN","VARDEC","EXPR","IDENTIFIER","INT"};
+char* names[] = {"HEAD","ASSIGN","VARDEC","EXPR","IDENTIFIER","INT","ADD","SUBTRACT","MULTIPLY"};
 Node* makeNode(nodetype type,void* data, size_t datasize,Node* child,...){
 	Node* node = malloc(sizeof(Node));
 	Node* child_bak = child;
