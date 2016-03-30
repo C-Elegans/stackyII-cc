@@ -1,4 +1,8 @@
 int y=y&3;
-void main(){
+void main(int x){
 	x=1;
 }
+void test(){
+	x=2;
+}
+main(1,test());

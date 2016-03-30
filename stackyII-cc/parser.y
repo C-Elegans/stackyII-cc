@@ -23,7 +23,7 @@ void yyerror(const char* s);
 %token PLUS ASSIGN EQUALS
 %token INTDEC VOIDDEC
 %token SEMICOLON
-%type<tree> assign int identifier vardec statement expr stmt_list functype function_variables funcdef block
+%type<tree> assign int identifier vardec statement expr stmt_list functype function_variables funcdef block funccall parameters
 
 %left '&' '|' '^'
 %left '+' '-'
@@ -42,6 +42,8 @@ stmt_list:
 statement:
 	 assign
 	 | vardec
+	 
+	 | expr
 
 ;
 vardec:
@@ -60,6 +62,7 @@ int:
 expr:
 	int
 	|identifier
+	|funccall
 	|expr '+' expr {$$=makeNode(ADD,NULL,0,$1,$3,NULL);}
 	|expr '-' expr {$$=makeNode(SUBTRACT,NULL,0,$1,$3,NULL);}
 	|expr '*' expr {$$=makeNode(MULTIPLY,NULL,0,$1,$3,NULL);}
@@ -71,22 +74,31 @@ expr:
 	|expr '>''>' expr {$$=makeNode(SHR,NULL,0,$1,$4,NULL);}
 	|expr EQUALS EQUALS expr {$$=makeNode(EQUALST,NULL,0,$1,$4,NULL);}
 	|'(' expr ')' {$$=$2;}
+
 ;
 functype: VOIDDEC {$$=makeNode(VOIDDECT,NULL,0,NULL);}
 	|INTDEC {$$=makeNode(INTDECT,NULL,0,NULL);}
 	;
 function_variables:
 	function_variables ',' vardec {$$=$1;append_node($$,$3);}
-	|vardec {$$=makeNode(FUNCVARS,NULL,0,$1);}
+	|vardec {$$=makeNode(FUNCVARS,NULL,0,$1,NULL);}
 	| {$$=makeNode(FUNCVARS,NULL,0,NULL);}
 ;
 funcdef:
-	functype identifier '('  ')' '{' block '}' {$$=makeNode(FUNCDEF,NULL,0,$2,$1,$6,NULL);}
+	functype identifier '(' function_variables  ')' '{' block '}' {$$=makeNode(FUNCDEF,NULL,0,$2,$1,$4,$7,NULL);}
 ;
 block:
 	block statement SEMICOLON {$$=$1;append_node($1,$2);}
 	| {$$=makeNode(BLOCK,NULL,0,NULL);}
 ;
+parameters:
+	parameters ',' expr {$$=$1;append_node($1,$3);}
+	| expr {$$=makeNode(FUNCPARS,NULL,0,$1,NULL);}
+	| {$$=makeNode(FUNCPARS,NULL,0,NULL);}
+;
+funccall:
+	identifier '(' parameters ')' {$$=makeNode(FUNCCALL,NULL,0,$1,$3,NULL);}
+	;
 %%
 
 void yyerror(const char* s){
