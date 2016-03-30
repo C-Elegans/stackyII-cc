@@ -11,7 +11,8 @@
 #include <stdarg.h>
 #include <string.h>
 #define INITIAL_CAPACITY 4
-char* names[] = {"ROOT","HEAD","ASSIGN","VARDEC","EXPR","IDENTIFIER","INT","ADD","SUBTRACT","MULTIPLY","DIVIDE","AND","OR","XOR"};
+char* names[] = {"ROOT","HEAD","ASSIGN","VARDEC","EXPR","IDENTIFIER","INT","ADD","SUBTRACT","MULTIPLY","DIVIDE","AND","OR","XOR","EQUALS",
+"SHIFT LEFT","SHIFT RIGHT","FUNCDEF","FUNCVARS","void","int","BLOCK"};
 Node* makeNode(nodetype type,void* data, size_t datasize,Node* child,...){
 	Node* node = malloc(sizeof(Node));
 	Node* child_bak = child;
@@ -78,8 +79,8 @@ void collapse_tree(Node* tree){
 	Node** child = tree->children;
 	if(child != NULL){
 		while (*child != NULL) {
-			collapse_tree(*child);
 			if((*child)->type == HEAD){
+				collapse_tree(*child);
 				append_nodes(rootnode,(*child)->children);
 				delete_node(rootnode, *child);
 				

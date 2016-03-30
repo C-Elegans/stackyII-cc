@@ -4,6 +4,7 @@
 #include <string.h>
 #include "main.h"
 #include "ast.h"
+#define EXPRESSION(type) $$=makeNode(type,0,NULL,$1,$3);
 extern int yylex();
 extern int yyparse();
 extern FILE* yyin;
@@ -20,9 +21,10 @@ void yyerror(const char* s);
 %token <fval> FLOAT
 %token <sval> IDENTIFIER
 %token PLUS ASSIGN EQUALS
-%token INTDEC
+%token INTDEC VOIDDEC
 %token SEMICOLON
-%type<tree> assign int identifier vardec statement expr stmt_list
+%type<tree> assign int identifier vardec statement expr stmt_list functype function_variables funcdef block
+
 %left '&' '|' '^'
 %left '+' '-'
 %left '*' '/'
@@ -34,11 +36,13 @@ start:
 ;
 stmt_list:
 	stmt_list statement SEMICOLON {$$=$1;append_node($1,$2);}
+	|stmt_list funcdef {$$=$1;append_node($1,$2);}
 	| {$$=makeNode(ROOT,NULL,0,NULL);}
 	;
 statement:
 	 assign
 	 | vardec
+
 ;
 vardec:
 	INTDEC identifier {$$=makeNode(VARDECT,NULL,0,$2,NULL);}
@@ -63,9 +67,26 @@ expr:
 	|expr '&' expr {$$=makeNode(AND,NULL,0,$1,$3,NULL);}
 	|expr '|' expr {$$=makeNode(OR,NULL,0,$1,$3,NULL);}
 	|expr '^' expr {$$=makeNode(XOR,NULL,0,$1,$3,NULL);}
+	|expr '<''<' expr {$$=makeNode(SHL,NULL,0,$1,$4,NULL);}
+	|expr '>''>' expr {$$=makeNode(SHR,NULL,0,$1,$4,NULL);}
+	|expr EQUALS EQUALS expr {$$=makeNode(EQUALST,NULL,0,$1,$4,NULL);}
 	|'(' expr ')' {$$=$2;}
 ;
-
+functype: VOIDDEC {$$=makeNode(VOIDDECT,NULL,0,NULL);}
+	|INTDEC {$$=makeNode(INTDECT,NULL,0,NULL);}
+	;
+function_variables:
+	function_variables ',' vardec {$$=$1;append_node($$,$3);}
+	|vardec {$$=makeNode(FUNCVARS,NULL,0,$1);}
+	| {$$=makeNode(FUNCVARS,NULL,0,NULL);}
+;
+funcdef:
+	functype identifier '('  ')' '{' block '}' {$$=makeNode(FUNCDEF,NULL,0,$2,$1,$6,NULL);}
+;
+block:
+	block statement SEMICOLON {$$=$1;append_node($1,$2);}
+	| {$$=makeNode(BLOCK,NULL,0,NULL);}
+;
 %%
 
 void yyerror(const char* s){
