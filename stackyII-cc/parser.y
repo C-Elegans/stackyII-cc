@@ -23,7 +23,7 @@ void yyerror(const char* s);
 %token PLUS ASSIGN EQUALS
 %token INTDEC VOIDDEC
 %token SEMICOLON
-%type<tree> assign int identifier vardec statement expr stmt_list functype function_variables funcdef block funccall parameters
+%type<tree> assign int identifier vardec statement expr stmt_list functype function_variables funcdef block funccall parameters funcdecl
 
 %left '&' '|' '^'
 %left '+' '-'
@@ -37,6 +37,7 @@ start:
 stmt_list:
 	stmt_list statement SEMICOLON {$$=$1;append_node($1,$2);}
 	|stmt_list funcdef {$$=$1;append_node($1,$2);}
+	|stmt_list funcdecl {$$=$1;append_node($1,$2);}
 	| {$$=makeNode(ROOT,NULL,0,NULL);}
 	;
 statement:
@@ -84,6 +85,8 @@ function_variables:
 	|vardec {$$=makeNode(FUNCVARS,NULL,0,$1,NULL);}
 	| {$$=makeNode(FUNCVARS,NULL,0,NULL);}
 ;
+funcdecl:
+	functype identifier '(' function_variables  ')' SEMICOLON {$$=makeNode(FUNCDECL,NULL,0,$2,$1,$4,NULL);}
 funcdef:
 	functype identifier '(' function_variables  ')' '{' block '}' {$$=makeNode(FUNCDEF,NULL,0,$2,$1,$4,$7,NULL);}
 ;
