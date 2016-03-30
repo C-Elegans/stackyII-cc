@@ -10,13 +10,12 @@
 #include <stdlib.h>
 #include "main.h"
 #include "y.tab.h"
-AstNode* tree_head;
+
 extern int yyparse();
 extern FILE* yyin;
 int main(int argc,char** argv){
 	
-	tree_head = new_tail_node(HEADT, NULL, 0);
-	if(argc != 2){
+		if(argc != 2){
 		fprintf(stderr, "Usage stackyII-cc [file]\n");
 		exit(-1);
 	}
@@ -30,5 +29,9 @@ int main(int argc,char** argv){
 		yyparse();
 	} while (!feof(yyin));
 	
-	print_node(tree_head,0);
+	
+}
+void process_tree(Node* tree){
+	printf("Processing tree\n");
+	print_node(tree, 0);
 }

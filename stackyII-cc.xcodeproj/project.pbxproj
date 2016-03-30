@@ -11,7 +11,7 @@
 		0AEE3F031CAAD845006F0348 /* lex.l in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE3F011CAAD844006F0348 /* lex.l */; };
 		0AEE3F061CAADC24006F0348 /* test.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0AEE3F051CAADB78006F0348 /* test.txt */; };
 		0AEE3F081CAAF560006F0348 /* parser.y in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE3F071CAAF560006F0348 /* parser.y */; };
-		0AEE3F0C1CAB1054006F0348 /* ast.c in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE3F0A1CAB1054006F0348 /* ast.c */; };
+		0AEE3F101CAB34A7006F0348 /* ast.c in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE3F0E1CAB34A7006F0348 /* ast.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -45,9 +45,9 @@
 		0AEE3F011CAAD844006F0348 /* lex.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = lex.l; sourceTree = "<group>"; };
 		0AEE3F051CAADB78006F0348 /* test.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.txt; sourceTree = "<group>"; };
 		0AEE3F071CAAF560006F0348 /* parser.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = parser.y; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
-		0AEE3F0A1CAB1054006F0348 /* ast.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ast.c; sourceTree = "<group>"; };
-		0AEE3F0B1CAB1054006F0348 /* ast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ast.h; sourceTree = "<group>"; };
 		0AEE3F0D1CAB1BB9006F0348 /* main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
+		0AEE3F0E1CAB34A7006F0348 /* ast.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ast.c; sourceTree = "<group>"; };
+		0AEE3F0F1CAB34A7006F0348 /* ast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ast.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,8 +85,8 @@
 				0AEE3F011CAAD844006F0348 /* lex.l */,
 				0AEE3F051CAADB78006F0348 /* test.txt */,
 				0AEE3F071CAAF560006F0348 /* parser.y */,
-				0AEE3F0A1CAB1054006F0348 /* ast.c */,
-				0AEE3F0B1CAB1054006F0348 /* ast.h */,
+				0AEE3F0E1CAB34A7006F0348 /* ast.c */,
+				0AEE3F0F1CAB34A7006F0348 /* ast.h */,
 			);
 			path = "stackyII-cc";
 			sourceTree = "<group>";
@@ -150,7 +150,7 @@
 			files = (
 				0AEE3F081CAAF560006F0348 /* parser.y in Sources */,
 				0AEE3F031CAAD845006F0348 /* lex.l in Sources */,
-				0AEE3F0C1CAB1054006F0348 /* ast.c in Sources */,
+				0AEE3F101CAB34A7006F0348 /* ast.c in Sources */,
 				0AEE3EFB1CAAD81B006F0348 /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

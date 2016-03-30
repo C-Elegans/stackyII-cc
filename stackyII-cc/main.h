@@ -10,6 +10,6 @@
 #ifndef main_h
 #define main_h
 #include "ast.h"
-extern AstNode* tree_head;
+void process_tree(Node* tree);
 
 #endif /* main_h */

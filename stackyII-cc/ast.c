@@ -8,107 +8,63 @@
 
 #include "ast.h"
 #include <stdlib.h>
-#include <string.h>
 #include <stdarg.h>
-char* names[] = {"HEAD","INT","ASSIGN","IDENTIFIER","VARDEC"};
-AstNode* new_tail_node(node_type type, void* data,size_t datasize){
-	AstNode* node = malloc(sizeof(AstNode));
-	node->type = type;
-	node->data = malloc(datasize);
-	memcpy(node->data, data, datasize);
-	node->children = NULL;
-	node->parent = NULL;
-	node->numchildren = 0;
-	node->childrensize = 0;
-	return node;
-}
-AstNode* new_nodev(node_type type,void* data,size_t datasize, AstNode* child, ...){
-	AstNode* node = new_tail_node(type, data,datasize );
-	node_append(node, child);
+#include <string.h>
+char* names[] = {"HEAD","ASSIGN","VARDEC","EXPR","IDENTIFIER","INT"};
+Node* makeNode(nodetype type,void* data, size_t datasize,Node* child,...){
+	Node* node = malloc(sizeof(Node));
+	Node* child_bak = child;
+	//printf("Node:%p Initial child %p %s\n",node,child,names[type]);
 	va_list argp;
-	va_start(argp,child);
-	AstNode* p;
-	while((p = va_arg(argp, AstNode*)) != NULL)
-		node_append(node, p);
+	node->type = type;
+	if(datasize != 0 && data != NULL){
+		node->data = malloc(datasize);
+		memcpy(node->data,data,datasize);
+	}
+	if(child == NULL){
+		node->children = NULL;
+		//printf("children: %d\n",0);
+		return node;
+	}
 	
+	va_start(argp, child);
+	int numchildren = 1;
+	Node* p ;
+	while((p = va_arg(argp, Node*)) != NULL)
+		numchildren++;
 	va_end(argp);
-	
-	return node;
-}
-AstNode* new_node(node_type type,void* data,size_t datasize, AstNode** children){
-	AstNode* node = new_tail_node(type, data,datasize );
+	//printf("children: %d\n",numchildren);
+	Node** children = calloc(numchildren+1, sizeof(Node*));
 	node->children = children;
-	int numchildren = node_count_children(node);
-	node->numchildren = numchildren;
-	if(numchildren <4)numchildren = 4; //extra space
-	node->children = malloc(sizeof(AstNode*)*numchildren);
-	memcpy(node->children, children, sizeof(AstNode*)*numchildren);
-	node->childrensize = numchildren;
-	
-	return node;
-}
-void node_append(AstNode* node,AstNode* new_child){
-	if(node->children == NULL){
-		node->children =calloc(4*sizeof(AstNode*),sizeof(AstNode*));
-		node->childrensize = 4;
-		node->numchildren = 0;
-	}
-	if(node->numchildren <= node->childrensize -1){
-		AstNode** children = realloc(node->children, 2*node->childrensize*sizeof(AstNode*));
-		if(children == NULL)exit(-1);
-		node->children = children;
-		node->childrensize *=2;
-	}
-	*(node->children + node->numchildren) = new_child;
-	*(node->children + node->numchildren + 1) = NULL;
-	node->numchildren ++;
-}
-int node_count_children(AstNode* node){
-	if (node->children == NULL) {
-		return 0;
-	}
-	AstNode** children = node->children;
-	int count = 0;
-	while (*children!= NULL) {
-		count++;
+	*children = child_bak;
+	children++;
+	va_start(argp, child);
+	while((p = va_arg(argp, Node*)) != NULL){
+		*children = p;
 		children++;
 	}
-	return count;
+	return node;
 }
-void node_free(AstNode* node){
-	free(node->data);
-	AstNode** child = node->children;
-	if(child != NULL){
-		while (*child != NULL) {
-			node_free(*child);
-			child++;
-		}
-		free(node->children);
-	}
-	free(node);
-}
-void print_node(AstNode* node,int depth){
+void print_node(Node* tree,int depth){
 	for(int i=0;i<depth;i++)printf("\t");
-	printf("type: %s, children: %d ",names[node->type],node->numchildren);
-	switch (node->type) {
-		case HEADT:
-			break;
-		case INTT:
-			printf("int: %d",*(int*)(node->data));
+	printf("%s: data: ",names[tree->type]);
+	switch (tree->type) {
+  		case INTT:
+			printf("%d",*(int*)tree->data);
 			break;
 		case IDENTIFIERT:
-			printf("id: %s",(char*)node->data);
-			break;
-		default:
+			printf("%s",(char*)tree->data);
+			
+  		default:
 			break;
 	}
 	printf("\n");
-	
-	AstNode** child = node->children;
-	if(child != NULL){
-		while (*child != NULL) {
-			print_node(*child,depth+1);
+	if(tree->children != NULL){
+		Node** child = tree->children;
+		while(*child != NULL){
+			print_node(*child, depth+1);
 			child++;
 		}
 	}
+	
 }
