@@ -24,14 +24,15 @@ void yyerror(const char* s);
 %token SEMICOLON
 %type<tree> assign int identifier vardec statement expr stmt_list
 %left '+' '-'
-%left '*'
+%left '*' '/'
+
 %start start
 %%
 start:
 	stmt_list {process_tree($1);}
 ;
 stmt_list:
-	stmt_list statement  {$$=$1;append_node($1,$2);}
+	stmt_list statement SEMICOLON {$$=$1;append_node($1,$2);}
 	| {$$=makeNode(ROOT,NULL,0,NULL);}
 	;
 statement:
