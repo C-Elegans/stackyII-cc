@@ -32,6 +32,8 @@ int main(int argc,char** argv){
 	
 }
 void process_tree(Node* tree){
+	//print_node(tree, 0);
+	//collapse_tree(tree);
 	printf("Processing tree\n");
 	print_node(tree, 0);
 }

@@ -22,17 +22,21 @@ void yyerror(const char* s);
 %token PLUS ASSIGN EQUALS
 %token INTDEC
 %token SEMICOLON
-%type<tree> assign int identifier vardec statement expr
+%type<tree> assign int identifier vardec statement expr stmt_list
+%left '+' '-'
+%left '*'
 %start start
 %%
 start:
-	statement {process_tree($1);}
+	stmt_list {process_tree($1);}
 ;
+stmt_list:
+	stmt_list statement  {$$=$1;append_node($1,$2);}
+	| {$$=makeNode(ROOT,NULL,0,NULL);}
+	;
 statement:
-	 statement assign SEMICOLON{$$=makeNode(HEAD,NULL,0,$1,$2,NULL);}
-	| statement vardec SEMICOLON {$$=makeNode(HEAD,NULL,0,$1,$2,NULL);}
-	| assign SEMICOLON
-	| vardec SEMICOLON
+	 assign
+	 | vardec
 ;
 vardec:
 	INTDEC identifier {$$=makeNode(VARDECT,NULL,0,$2,NULL);}
@@ -52,6 +56,7 @@ expr:
 	|expr '+' expr {$$=makeNode(ADD,NULL,0,$1,$3,NULL);}
 	|expr '-' expr {$$=makeNode(SUBTRACT,NULL,0,$1,$3,NULL);}
 	|expr '*' expr {$$=makeNode(MULTIPLY,NULL,0,$1,$3,NULL);}
+	|'(' expr ')' {$$=$2;}
 ;
 
 %%
