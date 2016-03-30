@@ -23,6 +23,7 @@ void yyerror(const char* s);
 %token INTDEC
 %token SEMICOLON
 %type<tree> assign int identifier vardec statement expr stmt_list
+%left '&' '|' '^'
 %left '+' '-'
 %left '*' '/'
 
@@ -44,6 +45,7 @@ vardec:
 ;
 assign:
 	identifier EQUALS expr {$$=makeNode(ASSIGNT,NULL,0,$1,$3,NULL);}
+	|INTDEC identifier EQUALS expr {$$=makeNode(HEAD,NULL,0,makeNode(VARDECT,NULL,0,$2,NULL),makeNode(ASSIGNT,NULL,0,$2,$4),NULL);}
 ;
 identifier:
 	IDENTIFIER {$$=makeNode(IDENTIFIERT,$1,strlen($1)+1,NULL,NULL);}
@@ -57,6 +59,10 @@ expr:
 	|expr '+' expr {$$=makeNode(ADD,NULL,0,$1,$3,NULL);}
 	|expr '-' expr {$$=makeNode(SUBTRACT,NULL,0,$1,$3,NULL);}
 	|expr '*' expr {$$=makeNode(MULTIPLY,NULL,0,$1,$3,NULL);}
+	|expr '/' expr {$$=makeNode(DIVIDE,NULL,0,$1,$3,NULL);}
+	|expr '&' expr {$$=makeNode(AND,NULL,0,$1,$3,NULL);}
+	|expr '|' expr {$$=makeNode(OR,NULL,0,$1,$3,NULL);}
+	|expr '^' expr {$$=makeNode(XOR,NULL,0,$1,$3,NULL);}
 	|'(' expr ')' {$$=$2;}
 ;
 

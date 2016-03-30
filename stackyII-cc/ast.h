@@ -10,7 +10,7 @@
 #define ast_h
 
 #include <stdio.h>
-typedef enum{ROOT=0,HEAD,ASSIGNT,VARDECT,EXPRT,IDENTIFIERT,INTT,ADD,SUBTRACT,MULTIPLY} nodetype;
+typedef enum{ROOT=0,HEAD,ASSIGNT,VARDECT,EXPRT,IDENTIFIERT,INTT,ADD,SUBTRACT,MULTIPLY,DIVIDE,AND,OR,XOR} nodetype;
 typedef struct node{
 	nodetype type;
 	void* data;

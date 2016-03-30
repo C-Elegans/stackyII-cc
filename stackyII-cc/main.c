@@ -36,4 +36,5 @@ void process_tree(Node* tree){
 	//collapse_tree(tree);
 	printf("Processing tree\n");
 	print_node(tree, 0);
+	
 }
