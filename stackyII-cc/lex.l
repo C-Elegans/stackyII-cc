@@ -16,5 +16,11 @@ void {return VOIDDEC;};
 [a-zA-Z][a-zA-Z0-9]*     { yylval.sval = strdup(yytext); return IDENTIFIER;}
 \; {return SEMICOLON;}
 = {return EQUALS;};
+\=\= {return EQ;}
+\< {return LT;}
+\> {return GT;}
+\<\= {return LE;}
+\>\= {return GE;}
+!= {return NE;}
 . {return yytext[0];}
 %%

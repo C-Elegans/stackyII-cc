@@ -1,5 +1,5 @@
 void main(int x);
-z=1;
+
 int y=y&3;
 
 void main(int x){
@@ -8,4 +8,5 @@ void main(int x){
 void test(){
 	x=2;
 }
-main(1,test());
+
+main(1==2,test());

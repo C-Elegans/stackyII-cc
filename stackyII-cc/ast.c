@@ -12,7 +12,10 @@
 #include <string.h>
 #define INITIAL_CAPACITY 4
 char* names[] = {"ROOT","HEAD","ASSIGN","VARDEC","EXPR","IDENTIFIER","INT","ADD","SUBTRACT","MULTIPLY","DIVIDE","AND","OR","XOR","EQUALS",
-"SHIFT LEFT","SHIFT RIGHT","FUNCDEF","FUNCVARS","void","int","BLOCK","FUNCCALL","FUNCPARS","FUNCDECL","VAR"};
+"SHIFT LEFT","SHIFT RIGHT","FUNCDEF","FUNCVARS","void","int","BLOCK","FUNCCALL","FUNCPARS","FUNCDECL","VAR",
+"==","!=","<=",">=","<",">"
+
+};
 Node* makeNode(nodetype type,void* data, size_t datasize,Node* child,...){
 	
 	//printf("Node:%p Initial child %p %s\n",node,child,names[type]);

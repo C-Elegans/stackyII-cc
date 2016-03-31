@@ -22,11 +22,12 @@ void yyerror(const char* s);
 %token <ival> INT expression
 %token <fval> FLOAT
 %token <sval> IDENTIFIER
+%token LE GE LT GT EQ NE
 %token PLUS ASSIGN EQUALS
 %token INTDEC VOIDDEC
 %token SEMICOLON
 %type<tree> assign int identifier vardec statement expr stmt_list functype function_variables funcdef block funccall parameters funcdecl var
-
+%left LE GE LT GT EQ NE
 %left '&' '|' '^'
 %left '+' '-'
 %left '*' '/'
@@ -68,6 +69,12 @@ expr:
 	int
 	|var
 	|funccall
+	|expr EQ expr {$$=makeNode(EQT,NULL,0,$1,$3,NULL);}
+	|expr NE expr {$$=makeNode(NET,NULL,0,$1,$3,NULL);}
+	|expr LT expr {$$=makeNode(LTT,NULL,0,$1,$3,NULL);}
+	|expr GT expr {$$=makeNode(GTT,NULL,0,$1,$3,NULL);}
+	|expr LE expr {$$=makeNode(LET,NULL,0,$1,$3,NULL);}
+	|expr GE expr {$$=makeNode(GET,NULL,0,$1,$3,NULL);}
 	|expr '+' expr {$$=makeNode(ADD,NULL,0,$1,$3,NULL);}
 	|expr '-' expr {$$=makeNode(SUBTRACT,NULL,0,$1,$3,NULL);}
 	|expr '*' expr {$$=makeNode(MULTIPLY,NULL,0,$1,$3,NULL);}
