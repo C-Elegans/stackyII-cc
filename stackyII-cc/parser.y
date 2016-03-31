@@ -4,6 +4,7 @@
 #include <string.h>
 #include "main.h"
 #include "ast.h"
+
 #define EXPRESSION(type) $$=makeNode(type,0,NULL,$1,$3);
 extern int yylex();
 extern int yyparse();
@@ -15,8 +16,9 @@ void yyerror(const char* s);
 	int ival;
 	float fval;
 	char* sval;
-	struct node* tree;
+	struct _GNode* tree;
 }
+
 %token <ival> INT expression
 %token <fval> FLOAT
 %token <sval> IDENTIFIER
@@ -35,15 +37,14 @@ start:
 	stmt_list {process_tree($1);}
 ;
 stmt_list:
-	stmt_list statement SEMICOLON {$$=$1;append_node($$,$2);}
-	|stmt_list funcdef {$$=$1;append_node($$,$2);}
-	|stmt_list funcdecl {$$=$1;append_node($$,$2);}
+	stmt_list statement SEMICOLON {$$=$1;g_node_append($$,$2);}
+	|stmt_list funcdef {$$=$1;g_node_append($$,$2);}
+	|stmt_list funcdecl {$$=$1;g_node_append($$,$2);}
 	| {$$=makeNode(ROOT,NULL,0,NULL);}
 	;
 statement:
 	 assign
 	 | vardec
-	 
 	 | expr
 
 ;
@@ -84,7 +85,7 @@ functype: VOIDDEC {$$=makeNode(VOIDDECT,NULL,0,NULL);}
 	|INTDEC {$$=makeNode(INTDECT,NULL,0,NULL);}
 	;
 function_variables:
-	function_variables ',' vardec {$$=$1;append_node($$,$3);}
+	function_variables ',' vardec {$$=$1;g_node_append($$,$3);}
 	|vardec {$$=makeNode(FUNCVARS,NULL,0,$1,NULL);}
 	| {$$=makeNode(FUNCVARS,NULL,0,NULL);}
 ;
@@ -94,11 +95,11 @@ funcdef:
 	functype identifier '(' function_variables  ')' '{' block '}' {$$=makeNode(FUNCDEF,NULL,0,$2,$1,$4,$7,NULL);}
 ;
 block:
-	block statement SEMICOLON {$$=$1;append_node($1,$2);}
+	block statement SEMICOLON {$$=$1;g_node_append($$,$2);}
 	| {$$=makeNode(BLOCK,NULL,0,NULL);}
 ;
 parameters:
-	parameters ',' expr {$$=$1;append_node($1,$3);}
+	parameters ',' expr {$$=$1;g_node_append($1,$3);}
 	| expr {$$=makeNode(FUNCPARS,NULL,0,$1,NULL);}
 	| {$$=makeNode(FUNCPARS,NULL,0,NULL);}
 ;

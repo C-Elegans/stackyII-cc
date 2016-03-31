@@ -10,15 +10,14 @@
 #define ast_h
 
 #include <stdio.h>
+#include <glib.h>
 typedef enum{ROOT=0,HEAD,ASSIGNT,VARDECT,EXPRT,IDENTIFIERT,INTT,ADD,SUBTRACT,MULTIPLY,DIVIDE,AND,OR,XOR,EQUALST
 ,SHL,SHR,FUNCDEF,FUNCVARS,VOIDDECT,INTDECT,BLOCK,FUNCCALL,FUNCPARS,FUNCDECL,VAR,  _ENUM_END} nodetype;
-typedef struct node{
+typedef GNode Node;
+typedef struct{
 	nodetype type;
 	void* data;
-	int capacity;
-	int numchildren;
-	struct node** children;
-} Node;
+} node_data;
 Node* makeNode(nodetype type,void* data, size_t datasize,Node* child,...);
 void print_node(Node* tree,int depth);
 void append_node(Node* tree,Node* child);

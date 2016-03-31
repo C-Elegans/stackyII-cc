@@ -14,71 +14,49 @@
 char* names[] = {"ROOT","HEAD","ASSIGN","VARDEC","EXPR","IDENTIFIER","INT","ADD","SUBTRACT","MULTIPLY","DIVIDE","AND","OR","XOR","EQUALS",
 "SHIFT LEFT","SHIFT RIGHT","FUNCDEF","FUNCVARS","void","int","BLOCK","FUNCCALL","FUNCPARS","FUNCDECL","VAR"};
 Node* makeNode(nodetype type,void* data, size_t datasize,Node* child,...){
-	Node* node = malloc(sizeof(Node));
-	Node* child_bak = child;
+	
 	//printf("Node:%p Initial child %p %s\n",node,child,names[type]);
 	va_list argp;
-	node->type = type;
+	
+	node_data* n_data = malloc(sizeof(node_data));
+	n_data->type = type;
 	if(datasize != 0 && data != NULL){
-		node->data = malloc(datasize);
-		memcpy(node->data,data,datasize);
+		n_data->data = malloc(datasize);
+		memcpy(n_data->data,data,datasize);
 	}
+	Node* node = g_node_new(n_data);
 	if(child == NULL){
-		node->children = NULL;
-		node->capacity = 0;
-		node->numchildren = 0;
-		//printf("children: %d\n",0);
+		
 		return node;
 	}
-	
+	g_node_append(node, child);
 	va_start(argp, child);
-	int numchildren = 1;
+	
 	Node* p ;
 	while((p = va_arg(argp, Node*)) != NULL)
-		numchildren++;
+		g_node_append(node, p);
 	va_end(argp);
-	node->capacity = numchildren;
-	node->numchildren = numchildren;
-	//printf("children: %d\n",numchildren);
-	Node** children = calloc(numchildren+1, sizeof(Node*));
-	node->children = children;
-	*children = child_bak;
-	children++;
-	va_start(argp, child);
-	while((p = va_arg(argp, Node*)) != NULL){
-		*children = p;
-		children++;
-	}
+	
 	return node;
 }
-void print_node(Node* tree,int depth){
-	for(int i=0;i<depth;i++)printf("\t");
-	if(tree->type >= _ENUM_END){
-		printf("Invalid node type!\n");
-		exit(-1);
-	}
-	printf("%s:  data: ",names[tree->type]);
-	switch (tree->type) {
-  		case INTT:
-			printf("%d",*(int*)tree->data);
-			break;
-		case IDENTIFIERT:
-			printf("%s",(char*)tree->data);
-			
-  		default:
-			break;
-	}
+gboolean print_traverse_func(GNode* node,gpointer data){
+	GNode* root = (GNode*)data;
+	int depth = g_node_depth(node);
+	for(int i=0;i<depth-1;i++)printf("\t");
+	node_data* n_data = (node_data*)node->data;
+	printf("%s ",names[n_data->type]);
+	if(n_data->type == INTT)printf("data: %d",*(int*)(n_data->data));
+	if(n_data->type == IDENTIFIERT)printf("data: %s",n_data->data);
 	printf("\n");
-	if(tree->children != NULL){
-		Node** child = tree->children;
-		while(*child != NULL){
-			print_node(*child, depth+1);
-			child++;
-		}
-	}
+	return FALSE;
+}
+void print_node(Node* tree,int depth){
+	g_node_traverse(tree, G_PRE_ORDER, G_TRAVERSE_ALL, -1, &print_traverse_func, tree);
+	
 	
 }
-void collapse_tree(Node* tree){
+
+/*void collapse_tree(Node* tree){
 	Node* rootnode = tree;
 	Node** child = tree->children;
 	if(child != NULL){
@@ -99,7 +77,7 @@ void free_node(Node* node){
 	free(node->children);
 	free(node);
 }
-void delete_node(Node* tree, Node* delete){
+/*void delete_node(Node* tree, Node* delete){
 	if(tree->children != NULL){
 		Node** child = tree->children;
 		Node** new_children = child;
@@ -155,4 +133,4 @@ void append_node(Node* tree,Node* child){
 	*(tree->children + tree->numchildren) = child;
 	*(tree->children + tree->numchildren+1) = NULL;
 	tree->numchildren ++;
-}
+}*/
