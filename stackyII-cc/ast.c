@@ -12,7 +12,7 @@
 #include <string.h>
 #define INITIAL_CAPACITY 4
 char* names[] = {"ROOT","HEAD","ASSIGN","VARDEC","EXPR","IDENTIFIER","INT","ADD","SUBTRACT","MULTIPLY","DIVIDE","AND","OR","XOR","EQUALS",
-"SHIFT LEFT","SHIFT RIGHT","FUNCDEF","FUNCVARS","void","int","BLOCK","FUNCCALL","FUNCPARS","FUNCDECL"};
+"SHIFT LEFT","SHIFT RIGHT","FUNCDEF","FUNCVARS","void","int","BLOCK","FUNCCALL","FUNCPARS","FUNCDECL","VAR"};
 Node* makeNode(nodetype type,void* data, size_t datasize,Node* child,...){
 	Node* node = malloc(sizeof(Node));
 	Node* child_bak = child;
@@ -53,6 +53,10 @@ Node* makeNode(nodetype type,void* data, size_t datasize,Node* child,...){
 }
 void print_node(Node* tree,int depth){
 	for(int i=0;i<depth;i++)printf("\t");
+	if(tree->type >= _ENUM_END){
+		printf("Invalid node type!\n");
+		exit(-1);
+	}
 	printf("%s:  data: ",names[tree->type]);
 	switch (tree->type) {
   		case INTT:
@@ -143,7 +147,8 @@ void append_node(Node* tree,Node* child){
 		tree->children = calloc(INITIAL_CAPACITY+1, sizeof(Node*));
 		tree->capacity = INITIAL_CAPACITY;
 	}
-	if(tree->capacity <=tree->numchildren){
+	if(tree->capacity <=tree->numchildren+1){
+		printf("Reallocating tree\n");
 		tree->children = realloc(tree->children, 2*tree->capacity + 1);
 		tree->capacity =2*tree->capacity;
 	}

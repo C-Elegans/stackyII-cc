@@ -12,6 +12,8 @@
 		0AEE3F061CAADC24006F0348 /* test.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0AEE3F051CAADB78006F0348 /* test.txt */; };
 		0AEE3F081CAAF560006F0348 /* parser.y in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE3F071CAAF560006F0348 /* parser.y */; };
 		0AEE3F101CAB34A7006F0348 /* ast.c in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE3F0E1CAB34A7006F0348 /* ast.c */; };
+		0AEE3F131CAC7FF5006F0348 /* semantic_check.c in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE3F111CAC7FF5006F0348 /* semantic_check.c */; };
+		0AEE3F151CAD55B5006F0348 /* libglib-2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE3F141CAD55B5006F0348 /* libglib-2.0.0.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -48,6 +50,9 @@
 		0AEE3F0D1CAB1BB9006F0348 /* main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
 		0AEE3F0E1CAB34A7006F0348 /* ast.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ast.c; sourceTree = "<group>"; };
 		0AEE3F0F1CAB34A7006F0348 /* ast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ast.h; sourceTree = "<group>"; };
+		0AEE3F111CAC7FF5006F0348 /* semantic_check.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = semantic_check.c; sourceTree = "<group>"; };
+		0AEE3F121CAC7FF5006F0348 /* semantic_check.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = semantic_check.h; sourceTree = "<group>"; };
+		0AEE3F141CAD55B5006F0348 /* libglib-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libglib-2.0.0.dylib"; path = "../../../../../usr/local/Cellar/glib/2.46.2/lib/libglib-2.0.0.dylib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AEE3F151CAD55B5006F0348 /* libglib-2.0.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +70,7 @@
 		0AEE3EEE1CAAD81B006F0348 = {
 			isa = PBXGroup;
 			children = (
+				0AEE3F141CAD55B5006F0348 /* libglib-2.0.0.dylib */,
 				0AEE3EF91CAAD81B006F0348 /* stackyII-cc */,
 				0AEE3EF81CAAD81B006F0348 /* Products */,
 			);
@@ -87,6 +94,8 @@
 				0AEE3F0E1CAB34A7006F0348 /* ast.c */,
 				0AEE3F0F1CAB34A7006F0348 /* ast.h */,
 				0AEE3F051CAADB78006F0348 /* test.txt */,
+				0AEE3F111CAC7FF5006F0348 /* semantic_check.c */,
+				0AEE3F121CAC7FF5006F0348 /* semantic_check.h */,
 			);
 			path = "stackyII-cc";
 			sourceTree = "<group>";
@@ -149,6 +158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AEE3F081CAAF560006F0348 /* parser.y in Sources */,
+				0AEE3F131CAC7FF5006F0348 /* semantic_check.c in Sources */,
 				0AEE3F031CAAD845006F0348 /* lex.l in Sources */,
 				0AEE3F101CAB34A7006F0348 /* ast.c in Sources */,
 				0AEE3EFB1CAAD81B006F0348 /* main.c in Sources */,
@@ -242,6 +252,16 @@
 		0AEE3EFF1CAAD81B006F0348 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"/usr/local/Cellar/glib/2.46.2/include/glib-2.0",
+					"/usr/local/Cellar/glib/2.46.2/lib/glib-2.0/include",
+					/usr/local/opt/gettext/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/glib/2.46.2/lib,
+					/usr/local/opt/gettext/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -249,6 +269,16 @@
 		0AEE3F001CAAD81B006F0348 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"/usr/local/Cellar/glib/2.46.2/include/glib-2.0",
+					"/usr/local/Cellar/glib/2.46.2/lib/glib-2.0/include",
+					/usr/local/opt/gettext/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/glib/2.46.2/lib,
+					/usr/local/opt/gettext/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
