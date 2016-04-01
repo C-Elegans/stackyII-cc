@@ -28,6 +28,7 @@ void yyerror(const char* s);
 %token SEMICOLON
 %token FOR IF
 %type<tree> assign int identifier vardec statement expr stmt_list functype function_variables funcdef block funccall parameters funcdecl var
+%type<tree> for_loop
 %left LE GE LT GT EQ NE
 %left '&' '|' '^'
 %left '+' '-'
@@ -42,7 +43,7 @@ stmt_list:
 	stmt_list statement SEMICOLON {$$=$1;g_node_append($$,$2);}
 	|stmt_list funcdef {$$=$1;g_node_append($$,$2);}
 	|stmt_list funcdecl {$$=$1;g_node_append($$,$2);}
-	| {$$=makeNode(ROOT,NULL,0,NULL);}
+	| {$$=makeNode(T_ROOT,NULL,0,NULL);}
 	;
 statement:
 	 assign
@@ -50,71 +51,74 @@ statement:
 	 | expr
 
 ;
+for_loop:
+	FOR '(' statement ';' expr ';' statement ')' '{' block '}'
+;
 vardec:
-	INTDEC var {$$=makeNode(VARDECT,NULL,0,makeNode(INTDECT,NULL,0,NULL,NULL),$2,NULL);}
+	INTDEC var {$$=makeNode(T_VARDEC,NULL,0,makeNode(T_INTDEC,NULL,0,NULL,NULL),$2,NULL);}
 ;
 assign:
-	INTDEC identifier EQUALS expr {Node* id = $2;$$=makeNode(HEAD,NULL,0,makeNode(VARDECT,NULL,0,makeNode(INTDECT,NULL,0,NULL),g_node_copy(id),NULL),
-														  makeNode(ASSIGNT,NULL,0,id,$4,NULL,NULL),NULL);}
-	|identifier EQUALS expr {$$=makeNode(ASSIGNT,NULL,0,$1,$3,NULL);}
+	INTDEC identifier EQUALS expr {Node* id = $2;$$=makeNode(T_HEAD,NULL,0,makeNode(T_VARDEC,NULL,0,makeNode(T_INTDEC,NULL,0,NULL),g_node_copy(id),NULL),
+														  makeNode(T_ASSIGN,NULL,0,id,$4,NULL,NULL),NULL);}
+	|identifier EQUALS expr {$$=makeNode(T_ASSIGN,NULL,0,$1,$3,NULL);}
 
 ;
 identifier:
-	IDENTIFIER {$$=makeNode(IDENTIFIERT,$1,strlen($1)+1,NULL,NULL);free($1);}
+	IDENTIFIER {$$=makeNode(T_IDENTIFIER,$1,strlen($1)+1,NULL,NULL);free($1);}
 ;
 int:
-	INT {$$=makeNode(INTT,&$1,sizeof(int),NULL,NULL);}
+	INT {$$=makeNode(T_INT,&$1,sizeof(int),NULL,NULL);}
 ;
 var:
-	identifier {$$=makeNode(VAR,NULL,0,$1,NULL);}
+	identifier {$$=makeNode(T_VAR,NULL,0,$1,NULL);}
 ;
 expr:
 	int
 	|var
 	|funccall
-	|expr EQ expr {$$=makeNode(EQT,NULL,0,$1,$3,NULL);}
-	|expr NE expr {$$=makeNode(NET,NULL,0,$1,$3,NULL);}
-	|expr LT expr {$$=makeNode(LTT,NULL,0,$1,$3,NULL);}
-	|expr GT expr {$$=makeNode(GTT,NULL,0,$1,$3,NULL);}
-	|expr LE expr {$$=makeNode(LET,NULL,0,$1,$3,NULL);}
-	|expr GE expr {$$=makeNode(GET,NULL,0,$1,$3,NULL);}
-	|expr '+' expr {$$=makeNode(ADD,NULL,0,$1,$3,NULL);}
-	|expr '-' expr {$$=makeNode(SUBTRACT,NULL,0,$1,$3,NULL);}
-	|expr '*' expr {$$=makeNode(MULTIPLY,NULL,0,$1,$3,NULL);}
-	|expr '/' expr {$$=makeNode(DIVIDE,NULL,0,$1,$3,NULL);}
-	|expr '&' expr {$$=makeNode(AND,NULL,0,$1,$3,NULL);}
-	|expr '|' expr {$$=makeNode(OR,NULL,0,$1,$3,NULL);}
-	|expr '^' expr {$$=makeNode(XOR,NULL,0,$1,$3,NULL);}
-	|expr '<''<' expr {$$=makeNode(SHL,NULL,0,$1,$4,NULL);}
-	|expr '>''>' expr {$$=makeNode(SHR,NULL,0,$1,$4,NULL);}
-	|expr EQUALS EQUALS expr {$$=makeNode(EQUALST,NULL,0,$1,$4,NULL);}
+	|expr EQ expr {$$=makeNode(T_EQ,NULL,0,$1,$3,NULL);}
+	|expr NE expr {$$=makeNode(T_NE,NULL,0,$1,$3,NULL);}
+	|expr LT expr {$$=makeNode(T_LT,NULL,0,$1,$3,NULL);}
+	|expr GT expr {$$=makeNode(T_GT,NULL,0,$1,$3,NULL);}
+	|expr LE expr {$$=makeNode(T_LE,NULL,0,$1,$3,NULL);}
+	|expr GE expr {$$=makeNode(T_GE,NULL,0,$1,$3,NULL);}
+	|expr '+' expr {$$=makeNode(T_ADD,NULL,0,$1,$3,NULL);}
+	|expr '-' expr {$$=makeNode(T_SUBTRACT,NULL,0,$1,$3,NULL);}
+	|expr '*' expr {$$=makeNode(T_MULTIPLY,NULL,0,$1,$3,NULL);}
+	|expr '/' expr {$$=makeNode(T_DIVIDE,NULL,0,$1,$3,NULL);}
+	|expr '&' expr {$$=makeNode(T_AND,NULL,0,$1,$3,NULL);}
+	|expr '|' expr {$$=makeNode(T_OR,NULL,0,$1,$3,NULL);}
+	|expr '^' expr {$$=makeNode(T_XOR,NULL,0,$1,$3,NULL);}
+	|expr '<''<' expr {$$=makeNode(T_SHL,NULL,0,$1,$4,NULL);}
+	|expr '>''>' expr {$$=makeNode(T_SHR,NULL,0,$1,$4,NULL);}
+	|expr EQUALS EQUALS expr {$$=makeNode(T_EQUALS,NULL,0,$1,$4,NULL);}
 	|'(' expr ')' {$$=$2;}
 
 ;
-functype: VOIDDEC {$$=makeNode(VOIDDECT,NULL,0,NULL);}
-	|INTDEC {$$=makeNode(INTDECT,NULL,0,NULL);}
+functype: VOIDDEC {$$=makeNode(T_VOIDDEC,NULL,0,NULL);}
+	|INTDEC {$$=makeNode(T_INTDEC,NULL,0,NULL);}
 	;
 function_variables:
 	function_variables ',' vardec {$$=$1;g_node_append($$,$3);}
-	|vardec {$$=makeNode(FUNCVARS,NULL,0,$1,NULL);}
-	| {$$=makeNode(FUNCVARS,NULL,0,NULL);}
+	|vardec {$$=makeNode(T_FUNCVARS,NULL,0,$1,NULL);}
+	| {$$=makeNode(T_FUNCVARS,NULL,0,NULL);}
 ;
 funcdecl:
-	functype identifier '(' function_variables  ')' SEMICOLON {$$=makeNode(FUNCDECL,NULL,0,$2,$1,$4,NULL);}
+	functype identifier '(' function_variables  ')' SEMICOLON {$$=makeNode(T_FUNCDECL,NULL,0,$2,$1,$4,NULL);}
 funcdef:
-	functype identifier '(' function_variables  ')' '{' block '}' {$$=makeNode(FUNCDEF,NULL,0,$2,$1,$4,$7,NULL);}
+	functype identifier '(' function_variables  ')' '{' block '}' {$$=makeNode(T_FUNCDEF,NULL,0,$2,$1,$4,$7,NULL);}
 ;
 block:
 	block statement SEMICOLON {$$=$1;g_node_append($$,$2);}
-	| {$$=makeNode(BLOCK,NULL,0,NULL);}
+	| {$$=makeNode(T_BLOCK,NULL,0,NULL);}
 ;
 parameters:
 	parameters ',' expr {$$=$1;g_node_append($1,$3);}
-	| expr {$$=makeNode(FUNCPARS,NULL,0,$1,NULL);}
-	| {$$=makeNode(FUNCPARS,NULL,0,NULL);}
+	| expr {$$=makeNode(T_FUNCPARS,NULL,0,$1,NULL);}
+	| {$$=makeNode(T_FUNCPARS,NULL,0,NULL);}
 ;
 funccall:
-	identifier '(' parameters ')' {$$=makeNode(FUNCCALL,NULL,0,$1,$3,NULL);}
+	identifier '(' parameters ')' {$$=makeNode(T_FUNCCALL,NULL,0,$1,$3,NULL);}
 	;
 %%
 

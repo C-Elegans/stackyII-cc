@@ -14,83 +14,83 @@ gboolean constexpr_elim(Node* tree, gpointer d){
 	if(child1 != NULL && child2 != NULL){
 		node_data* child1_data = (node_data*)child1->data;
 		node_data* child2_data = (node_data*)child2->data;
-		if(child1_data != NULL && child2_data != NULL && child1_data->type == INTT && child2_data->type == INTT){
+		if(child1_data != NULL && child2_data != NULL && child1_data->type == T_INT && child2_data->type == T_INT){
 			switch (parent_data->type) {
-				case ADD:{
+				case T_ADD:{
 					int newVal = *(int*)(child1_data->data) + *(int*)(child2_data->data);
-					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					Node* newNode = makeNode(T_INT, &newVal, sizeof(int), NULL);
 					replace_node(tree, newNode);
 					break;
 					}
-				case SUBTRACT:{
+				case T_SUBTRACT:{
 					int newVal = *(int*)(child1_data->data) - *(int*)(child2_data->data);
-					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					Node* newNode = makeNode(T_INT, &newVal, sizeof(int), NULL);
 					replace_node(tree, newNode);
 					break;
 				}
-				case MULTIPLY:{
+				case T_MULTIPLY:{
 					int newVal = *(int*)(child1_data->data) * *(int*)(child2_data->data);
-					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					Node* newNode = makeNode(T_INT, &newVal, sizeof(int), NULL);
 					replace_node(tree, newNode);
 					break;
 				}
-				case DIVIDE:{
+				case T_DIVIDE:{
 					int newVal = *(int*)(child1_data->data) / *(int*)(child2_data->data);
-					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					Node* newNode = makeNode(T_INT, &newVal, sizeof(int), NULL);
 					replace_node(tree, newNode);
 					break;
 				}
-				case AND:{
+				case T_AND:{
 					int newVal = *(int*)(child1_data->data) & *(int*)(child2_data->data);
-					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					Node* newNode = makeNode(T_INT, &newVal, sizeof(int), NULL);
 					replace_node(tree, newNode);
 					break;
 				}
-				case OR:{
+				case T_OR:{
 					int newVal = *(int*)(child1_data->data) | *(int*)(child2_data->data);
-					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					Node* newNode = makeNode(T_INT, &newVal, sizeof(int), NULL);
 					replace_node(tree, newNode);
 					break;
 				}
-				case XOR:{
+				case T_XOR:{
 					int newVal = *(int*)(child1_data->data) ^ *(int*)(child2_data->data);
-					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					Node* newNode = makeNode(T_INT, &newVal, sizeof(int), NULL);
 					replace_node(tree, newNode);
 					break;
 				}
-				case EQT:{
+				case T_EQ:{
 					int newVal = *(int*)(child1_data->data) == *(int*)(child2_data->data);
-					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					Node* newNode = makeNode(T_INT, &newVal, sizeof(int), NULL);
 					replace_node(tree, newNode);
 					break;
 				}
-				case NET:{
+				case T_NE:{
 					int newVal = *(int*)(child1_data->data) != *(int*)(child2_data->data);
-					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					Node* newNode = makeNode(T_INT, &newVal, sizeof(int), NULL);
 					replace_node(tree, newNode);
 					break;
 				}
-				case GTT:{
+				case T_GT:{
 					int newVal = *(int*)(child1_data->data) > *(int*)(child2_data->data);
-					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					Node* newNode = makeNode(T_INT, &newVal, sizeof(int), NULL);
 					replace_node(tree, newNode);
 					break;
 				}
-				case LTT:{
+				case T_LT:{
 					int newVal = *(int*)(child1_data->data) < *(int*)(child2_data->data);
-					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					Node* newNode = makeNode(T_INT, &newVal, sizeof(int), NULL);
 					replace_node(tree, newNode);
 					break;
 				}
-				case GET:{
+				case T_GE:{
 					int newVal = *(int*)(child1_data->data) >= *(int*)(child2_data->data);
-					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					Node* newNode = makeNode(T_INT, &newVal, sizeof(int), NULL);
 					replace_node(tree, newNode);
 					break;
 				}
-				case LET:{
+				case T_LE:{
 					int newVal = *(int*)(child1_data->data) <= *(int*)(child2_data->data);
-					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					Node* newNode = makeNode(T_INT, &newVal, sizeof(int), NULL);
 					replace_node(tree, newNode);
 					break;
 				}

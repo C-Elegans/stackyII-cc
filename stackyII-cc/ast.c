@@ -10,12 +10,16 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#undef ENUM_BEGIN
+#undef ENUM
+#undef ENUM_END
+#define ENUM_BEGIN(typ) const char * typ ## _name_table [] = {
+#define ENUM(nam) #nam
+#define ENUM_END(typ) };
+#undef ENUM_GENERATED
+#include "ast.h"
 #define INITIAL_CAPACITY 4
-char* names[] = {"ROOT","HEAD","ASSIGN","VARDEC","EXPR","IDENTIFIER","INT","ADD","SUBTRACT","MULTIPLY","DIVIDE","AND","OR","XOR","EQUALS",
-"SHIFT LEFT","SHIFT RIGHT","FUNCDEF","FUNCVARS","void","int","BLOCK","FUNCCALL","FUNCPARS","FUNCDECL","VAR",
-"==","!=","<=",">=","<",">"
 
-};
 Node* makeNode(nodetype type,void* data, size_t datasize,Node* child,...){
 	
 	//printf("Node:%p Initial child %p %s\n",node,child,names[type]);
@@ -44,13 +48,13 @@ Node* makeNode(nodetype type,void* data, size_t datasize,Node* child,...){
 	return node;
 }
 gboolean print_traverse_func(GNode* node,gpointer data){
-	GNode* root = (GNode*)data;
+	
 	int depth = g_node_depth(node);
 	for(int i=0;i<depth-1;i++)printf("\t");
 	node_data* n_data = (node_data*)node->data;
-	printf("%s ",names[n_data->type]);
-	if(n_data->type == INTT)printf("data: %d",*(int*)(n_data->data));
-	if(n_data->type == IDENTIFIERT)printf("data: %s",n_data->data);
+	printf("%s ",n_type_name_table[n_data->type]);
+	if(n_data->type == T_INT)printf("data: %d",*(int*)(n_data->data));
+	if(n_data->type == T_IDENTIFIER)printf("data: %s",n_data->data);
 	printf("\n");
 	return FALSE;
 }

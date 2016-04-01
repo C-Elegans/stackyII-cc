@@ -19,11 +19,11 @@ typedef struct{
 }func_entry;
 gboolean check_vars(Node* node,gpointer d){
 	node_data *n_data = (node_data*) node->data;
-	if(n_data->type == IDENTIFIERT){
+	if(n_data->type == T_IDENTIFIER){
 		char* id = (char*)n_data->data;
 		printf("id: %s\n",id);
 	}
-	if(n_data->type == VARDECT){
+	if(n_data->type == T_VARDEC){
 		
 		Node*  id_node = g_node_nth_child(node,1);
 		char* id = "";
@@ -32,7 +32,7 @@ gboolean check_vars(Node* node,gpointer d){
 		}
 		g_hash_table_insert(vars, id, &intdec);
 	}
-	if(n_data->type == VAR){
+	if(n_data->type == T_VAR){
 		Node* id_node = g_node_first_child(node);
 		char* id = (char*)((node_data*)(id_node->data))->data;
 		if(!g_hash_table_contains(vars, id)){

@@ -39,38 +39,38 @@ gboolean generate_node(Node* tree,gpointer d){
 	node_data* n_data = (node_data*)tree->data;
 	switch (n_data->type) {
 		
-		case INTT:
+		case T_INT:
 			add_inst(Push, *(uint16_t*)(n_data->data));
 			break;
-		case VARDECT:{
+		case T_VARDEC:{
 				Node* id = g_node_nth_child(tree, 1);
 				node_data* id_data = (node_data*)id->data;
 				add_variable((char*)id_data->data);
 			break;
 			}
-		case VAR:{
+		case T_VAR:{
 				Node * id = g_node_first_child(tree);
 				node_data* id_data = (node_data*)id->data;
 				int offset = GPOINTER_TO_INT( g_hash_table_lookup(vars, (char*)id_data->data));
 				add_inst(Local, offset);
 			break;
 			}
-		case ADD:
+		case T_ADD:
 			add_inst(Add, 0);
 			break;
-		case SUBTRACT:
+		case T_SUBTRACT:
 			add_inst(Sub, 0);
 			break;
-		case MULTIPLY:
+		case T_MULTIPLY:
 			add_inst(Mul, 0);
 			break;
-		case AND:
+		case T_AND:
 			add_inst(And,0);break;
-		case OR:
+		case T_OR:
 			add_inst(Or, 0);break;
-		case XOR:
+		case T_XOR:
 			add_inst(Xor,0);break;
-		case ASSIGNT:{
+		case T_ASSIGN:{
 			Node * id = g_node_first_child(tree);
 			node_data* id_data = (node_data*)id->data;
 			int offset = GPOINTER_TO_INT( g_hash_table_lookup(vars, (char*)id_data->data));
