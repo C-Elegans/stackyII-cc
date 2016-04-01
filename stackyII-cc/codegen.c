@@ -27,6 +27,7 @@ GList* instructions = NULL;
 typedef struct{
 	enum asm_op op;
 	uint16_t data;
+	int flags;
 }instruction;
 int frame = 0;
 void add_variable(char* var){
@@ -54,11 +55,27 @@ gboolean generate_node(Node* tree,gpointer d){
 				add_inst(Local, offset);
 			break;
 			}
+		case ADD:
+			add_inst(Add, 0);
+			break;
+		case SUBTRACT:
+			add_inst(Sub, 0);
+			break;
+		case MULTIPLY:
+			add_inst(Mul, 0);
+			break;
+		case AND:
+			add_inst(And,0);break;
+		case OR:
+			add_inst(Or, 0);break;
+		case XOR:
+			add_inst(Xor,0);break;
 		case ASSIGNT:{
 			Node * id = g_node_first_child(tree);
 			node_data* id_data = (node_data*)id->data;
 			int offset = GPOINTER_TO_INT( g_hash_table_lookup(vars, (char*)id_data->data));
 			add_inst(Slocal, offset);
+			break;
 		}
 		default:
 			break;

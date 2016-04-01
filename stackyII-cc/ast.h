@@ -22,9 +22,6 @@ typedef struct{
 } node_data;
 Node* makeNode(nodetype type,void* data, size_t datasize,Node* child,...);
 void print_node(Node* tree,int depth);
-void append_node(Node* tree,Node* child);
-void append_nodes(Node* root,Node** children);
-void collapse_tree(Node* tree);
-void delete_node(Node* tree, Node* delete);
-void free_node(Node* node);
+void replace_node(Node* initial,Node* replacement);
+void delete_node_recursive(Node* node);
 #endif /* ast_h */

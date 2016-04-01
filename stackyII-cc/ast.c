@@ -53,87 +53,30 @@ gboolean print_traverse_func(GNode* node,gpointer data){
 	printf("\n");
 	return FALSE;
 }
+gboolean delete_traverse_func(Node* node,gpointer d){
+	node_data* data = (node_data*)node->data;
+	if(data->data != NULL){
+		free(data->data);
+		data->data = NULL;
+	}
+	free(data);
+	node->data = NULL;
+	return FALSE;
+}
+void delete_node_recursive(Node* node){
+	g_node_traverse(node, G_POST_ORDER, G_TRAVERSE_ALL, -1, &delete_traverse_func , NULL);
+	g_node_destroy(node);
+}
+void replace_node(Node* initial,Node* replacement){
+	Node* parent = initial->parent;
+	int position = g_node_child_position(parent, initial);
+	delete_node_recursive(initial);
+	g_node_insert(parent, position, replacement);
+}
 void print_node(Node* tree,int depth){
 	g_node_traverse(tree, G_PRE_ORDER, G_TRAVERSE_ALL, -1, &print_traverse_func, tree);
 	
 	
 }
 
-/*void collapse_tree(Node* tree){
-	Node* rootnode = tree;
-	Node** child = tree->children;
-	if(child != NULL){
-		while (*child != NULL) {
-			if((*child)->type == HEAD){
-				collapse_tree(*child);
-				append_nodes(rootnode,(*child)->children);
-				delete_node(rootnode, *child);
-				
-			}
-			child++;
-		}
-		
-	}
-}
-void free_node(Node* node){
-	free(node->data);
-	free(node->children);
-	free(node);
-}
-/*void delete_node(Node* tree, Node* delete){
-	if(tree->children != NULL){
-		Node** child = tree->children;
-		Node** new_children = child;
-		int oldnumchildren = tree->numchildren;
-		while(*child != NULL){
-			if(*child == delete){
-				tree->numchildren--;
-				free(*child);
-			}else{
-				*new_children = *child;
-				new_children++;
-			}
-			child++;
-		}
-		for(int i=tree->numchildren;i<oldnumchildren;i++){
-			*(tree->children + i) = NULL;
-		}
-		
-	}
 
-}
-void append_nodes(Node* root,Node** children){
-	if(children == NULL){
-		return;
-	}
-	Node** child = children;
-	int count = 0;
-	while (*child != NULL) {
-		count++;
-		child++;
-	}
-	if(root->capacity <= (root->numchildren+count)){
-		root->children = realloc(root->children, root->numchildren+count + 1);
-	}
-	child = children;
-	while (*child != NULL) {
-		*(root->children+root->numchildren) = *child;
-		root->numchildren ++;
-		child++;
-	}
-	*(root->children+root->numchildren) = NULL;
-}
-void append_node(Node* tree,Node* child){
-	if(tree->children == NULL || tree->capacity == 0 ){
-		tree->children = calloc(INITIAL_CAPACITY+1, sizeof(Node*));
-		tree->capacity = INITIAL_CAPACITY;
-	}
-	if(tree->capacity <=tree->numchildren+1){
-		printf("Reallocating tree\n");
-		tree->children = realloc(tree->children, 2*tree->capacity + 1);
-		tree->capacity =2*tree->capacity;
-	}
-	*(tree->children + tree->numchildren) = child;
-	*(tree->children + tree->numchildren+1) = NULL;
-	tree->numchildren ++;
-}*/
