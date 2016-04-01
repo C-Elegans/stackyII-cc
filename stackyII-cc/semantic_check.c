@@ -47,4 +47,6 @@ void check_semantics(Node* root){
 	vars = g_hash_table_new(g_str_hash, g_str_equal);
 	functions = g_hash_table_new(g_str_hash, g_str_equal);
 	g_node_traverse(root, G_PRE_ORDER, G_TRAVERSE_ALL, -1, &check_vars, NULL);
+	g_hash_table_destroy(vars);
+	g_hash_table_destroy(functions);
 }

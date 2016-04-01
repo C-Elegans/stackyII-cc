@@ -30,17 +30,18 @@ int main(int argc,char** argv){
 	do {
 		yyparse();
 	} while (!feof(yyin));
-	
+	fclose(f);
 	
 }
 void process_tree(Node* tree){
 	//print_node(tree, 0);
 	//collapse_tree(tree);
-	printf("Processing tree\n");
+	
 	print_node(tree, 0);
 	check_semantics(tree);
 	optimize_tree(tree);
 	print_node(tree, 0);
 	primary_codegen(tree);
 	print_code();
+	g_node_destroy(tree);
 }

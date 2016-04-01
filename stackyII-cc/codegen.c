@@ -86,6 +86,7 @@ void primary_codegen(Node* tree){
 	vars = g_hash_table_new(g_str_hash, g_str_equal);
 	g_node_traverse(tree, G_POST_ORDER, G_TRAVERSE_ALL, -1, &generate_node, NULL);
 	instructions = g_list_reverse(instructions);
+	g_hash_table_destroy(vars);
 }
 void item_print(gpointer data, gpointer d){
 	instruction* inst = (instruction*) data;

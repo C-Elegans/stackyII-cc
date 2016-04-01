@@ -60,7 +60,7 @@ assign:
 
 ;
 identifier:
-	IDENTIFIER {$$=makeNode(IDENTIFIERT,$1,strlen($1)+1,NULL,NULL);}
+	IDENTIFIER {$$=makeNode(IDENTIFIERT,$1,strlen($1)+1,NULL,NULL);free($1);}
 ;
 int:
 	INT {$$=makeNode(INTT,&$1,sizeof(int),NULL,NULL);}
