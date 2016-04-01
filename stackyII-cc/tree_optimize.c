@@ -34,6 +34,12 @@ gboolean constexpr_elim(Node* tree, gpointer d){
 					replace_node(tree, newNode);
 					break;
 				}
+				case DIVIDE:{
+					int newVal = *(int*)(child1_data->data) / *(int*)(child2_data->data);
+					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					replace_node(tree, newNode);
+					break;
+				}
 				case AND:{
 					int newVal = *(int*)(child1_data->data) & *(int*)(child2_data->data);
 					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
@@ -48,6 +54,42 @@ gboolean constexpr_elim(Node* tree, gpointer d){
 				}
 				case XOR:{
 					int newVal = *(int*)(child1_data->data) ^ *(int*)(child2_data->data);
+					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					replace_node(tree, newNode);
+					break;
+				}
+				case EQT:{
+					int newVal = *(int*)(child1_data->data) == *(int*)(child2_data->data);
+					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					replace_node(tree, newNode);
+					break;
+				}
+				case NET:{
+					int newVal = *(int*)(child1_data->data) != *(int*)(child2_data->data);
+					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					replace_node(tree, newNode);
+					break;
+				}
+				case GTT:{
+					int newVal = *(int*)(child1_data->data) > *(int*)(child2_data->data);
+					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					replace_node(tree, newNode);
+					break;
+				}
+				case LTT:{
+					int newVal = *(int*)(child1_data->data) < *(int*)(child2_data->data);
+					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					replace_node(tree, newNode);
+					break;
+				}
+				case GET:{
+					int newVal = *(int*)(child1_data->data) >= *(int*)(child2_data->data);
+					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
+					replace_node(tree, newNode);
+					break;
+				}
+				case LET:{
+					int newVal = *(int*)(child1_data->data) <= *(int*)(child2_data->data);
 					Node* newNode = makeNode(INTT, &newVal, sizeof(int), NULL);
 					replace_node(tree, newNode);
 					break;
