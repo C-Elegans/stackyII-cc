@@ -43,6 +43,7 @@ stmt_list:
 	stmt_list statement SEMICOLON {$$=$1;g_node_append($$,$2);}
 	|stmt_list funcdef {$$=$1;g_node_append($$,$2);}
 	|stmt_list funcdecl {$$=$1;g_node_append($$,$2);}
+	|stmt_list for_loop {$$=$1;g_node_append($$,$2);}
 	| {$$=makeNode(T_ROOT,NULL,0,NULL);}
 	;
 statement:
@@ -52,7 +53,9 @@ statement:
 
 ;
 for_loop:
-	FOR '(' statement ';' expr ';' statement ')' '{' block '}'
+	FOR '(' statement SEMICOLON expr SEMICOLON statement ')' '{' block '}' {$$=makeNode(T_FOR,NULL,0,$3,$5,$10,$7,NULL);}
+	//FOR '(' statement ';' ')' '{'  '}' {$$=makeNode(T_FOR,NULL,0,$3,NULL);}
+	//FOR
 ;
 vardec:
 	INTDEC var {$$=makeNode(T_VARDEC,NULL,0,makeNode(T_INTDEC,NULL,0,NULL,NULL),$2,NULL);}
@@ -61,7 +64,8 @@ assign:
 	INTDEC identifier EQUALS expr {Node* id = $2;$$=makeNode(T_HEAD,NULL,0,makeNode(T_VARDEC,NULL,0,makeNode(T_INTDEC,NULL,0,NULL),g_node_copy(id),NULL),
 														  makeNode(T_ASSIGN,NULL,0,id,$4,NULL,NULL),NULL);}
 	|identifier EQUALS expr {$$=makeNode(T_ASSIGN,NULL,0,$1,$3,NULL);}
-
+	|identifier '+''+' {int t=1;$$=makeNode(T_ASSIGN,NULL,0,g_node_copy($1),makeNode(T_ADD,NULL,0,makeNode(T_VAR,NULL,0,$1,NULL),makeNode(T_INT,&t,sizeof(int),NULL),NULL),NULL);}
+	|identifier '-''-' {int t=1;$$=makeNode(T_ASSIGN,NULL,0,g_node_copy($1),makeNode(T_SUBTRACT,NULL,0,makeNode(T_VAR,NULL,0,$1,NULL),makeNode(T_INT,&t,sizeof(int),NULL),NULL),NULL);}
 ;
 identifier:
 	IDENTIFIER {$$=makeNode(T_IDENTIFIER,$1,strlen($1)+1,NULL,NULL);free($1);}
@@ -110,6 +114,7 @@ funcdef:
 ;
 block:
 	block statement SEMICOLON {$$=$1;g_node_append($$,$2);}
+	|block for_loop {$$=$1;g_node_append($$,$2);}
 	| {$$=makeNode(T_BLOCK,NULL,0,NULL);}
 ;
 parameters:

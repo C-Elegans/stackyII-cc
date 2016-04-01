@@ -45,6 +45,7 @@ ENUM(LT),
 ENUM(GT),
 ENUM(LE),
 ENUM(GE),
+ENUM(FOR),
 ENUM(ENUM_END),
 ENUM_END(n_type)
 #endif
@@ -55,10 +56,7 @@ ENUM_END(n_type)
 #include <glib.h>
 
 typedef enum n_type nodetype;
-//typedef enum{ROOT=0,HEAD,ASSIGNT,VARDECT,EXPRT,IDENTIFIERT,INTT,ADD,SUBTRACT,MULTIPLY,DIVIDE,AND,OR,XOR,EQUALST
-//,SHL,SHR,FUNCDEF,FUNCVARS,VOIDDECT,INTDECT,BLOCK,FUNCCALL,FUNCPARS,FUNCDECL,VAR,
-//EQT,NET,LET,GET,LTT,GTT,
-//  _ENUM_END} nodetype;
+
 typedef GNode Node;
 typedef struct{
 	nodetype type;

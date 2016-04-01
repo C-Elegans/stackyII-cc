@@ -10,6 +10,8 @@
 
 %%
 [ \t\n]          ;
+for {return FOR;}
+if {return IF;}
 [0-9]+           { yylval.ival = atoi(yytext); return INT; }
 int {return INTDEC;};
 void {return VOIDDEC;};
@@ -22,7 +24,6 @@ void {return VOIDDEC;};
 \<\= {return LE;}
 \>\= {return GE;}
 != {return NE;}
-for {return FOR;}
-if {return IF;}
+
 . {return yytext[0];}
 %%
