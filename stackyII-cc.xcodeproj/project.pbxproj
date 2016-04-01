@@ -14,6 +14,7 @@
 		0AEE3F101CAB34A7006F0348 /* ast.c in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE3F0E1CAB34A7006F0348 /* ast.c */; };
 		0AEE3F131CAC7FF5006F0348 /* semantic_check.c in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE3F111CAC7FF5006F0348 /* semantic_check.c */; };
 		0AEE3F151CAD55B5006F0348 /* libglib-2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE3F141CAD55B5006F0348 /* libglib-2.0.0.dylib */; };
+		0AEE3F181CADE68B006F0348 /* codegen.c in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE3F161CADE68B006F0348 /* codegen.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -53,6 +54,8 @@
 		0AEE3F111CAC7FF5006F0348 /* semantic_check.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = semantic_check.c; sourceTree = "<group>"; };
 		0AEE3F121CAC7FF5006F0348 /* semantic_check.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = semantic_check.h; sourceTree = "<group>"; };
 		0AEE3F141CAD55B5006F0348 /* libglib-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libglib-2.0.0.dylib"; path = "../../../../../usr/local/Cellar/glib/2.46.2/lib/libglib-2.0.0.dylib"; sourceTree = "<group>"; };
+		0AEE3F161CADE68B006F0348 /* codegen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = codegen.c; sourceTree = "<group>"; };
+		0AEE3F171CADE68B006F0348 /* codegen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = codegen.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +99,8 @@
 				0AEE3F051CAADB78006F0348 /* test.txt */,
 				0AEE3F111CAC7FF5006F0348 /* semantic_check.c */,
 				0AEE3F121CAC7FF5006F0348 /* semantic_check.h */,
+				0AEE3F161CADE68B006F0348 /* codegen.c */,
+				0AEE3F171CADE68B006F0348 /* codegen.h */,
 			);
 			path = "stackyII-cc";
 			sourceTree = "<group>";
@@ -160,6 +165,7 @@
 				0AEE3F081CAAF560006F0348 /* parser.y in Sources */,
 				0AEE3F131CAC7FF5006F0348 /* semantic_check.c in Sources */,
 				0AEE3F031CAAD845006F0348 /* lex.l in Sources */,
+				0AEE3F181CADE68B006F0348 /* codegen.c in Sources */,
 				0AEE3F101CAB34A7006F0348 /* ast.c in Sources */,
 				0AEE3EFB1CAAD81B006F0348 /* main.c in Sources */,
 			);

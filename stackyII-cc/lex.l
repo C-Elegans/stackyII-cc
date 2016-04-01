@@ -22,5 +22,7 @@ void {return VOIDDEC;};
 \<\= {return LE;}
 \>\= {return GE;}
 != {return NE;}
+for {return FOR;}
+if {return IF;}
 . {return yytext[0];}
 %%

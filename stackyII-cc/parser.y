@@ -26,6 +26,7 @@ void yyerror(const char* s);
 %token PLUS ASSIGN EQUALS
 %token INTDEC VOIDDEC
 %token SEMICOLON
+%token FOR IF
 %type<tree> assign int identifier vardec statement expr stmt_list functype function_variables funcdef block funccall parameters funcdecl var
 %left LE GE LT GT EQ NE
 %left '&' '|' '^'
@@ -53,8 +54,10 @@ vardec:
 	INTDEC var {$$=makeNode(VARDECT,NULL,0,makeNode(INTDECT,NULL,0,NULL,NULL),$2,NULL);}
 ;
 assign:
-	var EQUALS expr {$$=makeNode(ASSIGNT,NULL,0,$1,$3,NULL);}
-	|INTDEC var EQUALS expr {$$=makeNode(HEAD,NULL,0,makeNode(VARDECT,NULL,0,makeNode(INTDECT,NULL,0,NULL),$2,NULL),makeNode(ASSIGNT,NULL,0,$2,$4,NULL,NULL),NULL);}
+	INTDEC identifier EQUALS expr {Node* id = $2;$$=makeNode(HEAD,NULL,0,makeNode(VARDECT,NULL,0,makeNode(INTDECT,NULL,0,NULL),g_node_copy(id),NULL),
+														  makeNode(ASSIGNT,NULL,0,id,$4,NULL,NULL),NULL);}
+	|identifier EQUALS expr {$$=makeNode(ASSIGNT,NULL,0,$1,$3,NULL);}
+
 ;
 identifier:
 	IDENTIFIER {$$=makeNode(IDENTIFIERT,$1,strlen($1)+1,NULL,NULL);}

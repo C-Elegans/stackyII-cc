@@ -24,9 +24,12 @@ gboolean check_vars(Node* node,gpointer d){
 		printf("id: %s\n",id);
 	}
 	if(n_data->type == VARDECT){
-		Node* var_node = g_node_nth_child(node, 1);
-		Node* id_node = g_node_first_child(var_node);
-		char* id = (char*)((node_data*)(id_node->data))->data;
+		
+		Node*  id_node = g_node_nth_child(node,1);
+		char* id = "";
+		if(id_node && id_node->data != NULL){
+			id = (char*)((node_data*)(id_node->data))->data;
+		}
 		g_hash_table_insert(vars, id, &intdec);
 	}
 	if(n_data->type == VAR){

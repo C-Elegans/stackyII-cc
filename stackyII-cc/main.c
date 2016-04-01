@@ -11,7 +11,7 @@
 #include "main.h"
 #include "y.tab.h"
 #include "semantic_check.h"
-
+#include "codegen.h"
 extern int yyparse();
 extern FILE* yyin;
 int main(int argc,char** argv){
@@ -38,5 +38,6 @@ void process_tree(Node* tree){
 	printf("Processing tree\n");
 	print_node(tree, 0);
 	check_semantics(tree);
-	
+	primary_codegen(tree);
+	print_code();
 }
