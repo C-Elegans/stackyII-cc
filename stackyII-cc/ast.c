@@ -23,6 +23,7 @@ Node* makeNode(nodetype type,void* data, size_t datasize,Node* child,...){
 	
 	node_data* n_data = malloc(sizeof(node_data));
 	n_data->type = type;
+	n_data->data = NULL;
 	if(datasize != 0 && data != NULL){
 		n_data->data = malloc(datasize);
 		memcpy(n_data->data,data,datasize);
