@@ -38,7 +38,7 @@ void process_tree(Node* tree){
 	//collapse_tree(tree);
 	
 	print_node(tree, 0);
-	check_semantics(tree);
+	//check_semantics(tree);
 	optimize_tree(tree);
 	print_node(tree, 0);
 	primary_codegen(tree);

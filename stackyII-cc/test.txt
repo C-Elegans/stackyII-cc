@@ -1,4 +1,8 @@
 int x=1;
-if(x>3){
-
+void main(int a){
+	a=1;
+	
+}
+void test(){
+	int r=3;
 }
