@@ -28,7 +28,7 @@ void yyerror(const char* s);
 %token SEMICOLON
 %token FOR IF
 %type<tree> assign int identifier vardec statement expr stmt_list functype function_variables funcdef block funccall parameters funcdecl var
-%type<tree> for_loop
+%type<tree> for_loop if
 %left LE GE LT GT EQ NE
 %left '&' '|' '^'
 %left '+' '-'
@@ -44,6 +44,7 @@ stmt_list:
 	|stmt_list funcdef {$$=$1;g_node_append($$,$2);}
 	|stmt_list funcdecl {$$=$1;g_node_append($$,$2);}
 	|stmt_list for_loop {$$=$1;g_node_append($$,$2);}
+	|stmt_list if {$$=$1;g_node_append($$,$2);}
 	| {$$=makeNode(T_ROOT,NULL,0,NULL);}
 	;
 statement:
@@ -56,6 +57,9 @@ for_loop:
 	FOR '(' statement SEMICOLON expr SEMICOLON statement ')' '{' block '}' {$$=makeNode(T_FOR,NULL,0,$3,$5,$10,$7,NULL);}
 	//FOR '(' statement ';' ')' '{'  '}' {$$=makeNode(T_FOR,NULL,0,$3,NULL);}
 	//FOR
+;
+if:
+	IF '(' expr ')' '{' block '}' {$$=makeNode(T_IF,NULL,0,$3,$6,NULL);}
 ;
 vardec:
 	INTDEC var {$$=makeNode(T_VARDEC,NULL,0,makeNode(T_INTDEC,NULL,0,NULL,NULL),$2,NULL);}

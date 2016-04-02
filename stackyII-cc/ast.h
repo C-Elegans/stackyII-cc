@@ -46,8 +46,12 @@ ENUM(GT),
 ENUM(LE),
 ENUM(GE),
 ENUM(FOR),
+ENUM(IF),
 ENUM(ENUM_END),
 ENUM_END(n_type)
+#undef ENUM_BEGIN
+#undef ENUM
+#undef ENUM_END
 #endif
 #ifndef ast_h
 #define ast_h
