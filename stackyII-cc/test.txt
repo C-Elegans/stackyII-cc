@@ -7,5 +7,6 @@ void test(){
 	int r=3;
 	int i=2;
 	int p=4;
+	print(p);
 	p--;
 }

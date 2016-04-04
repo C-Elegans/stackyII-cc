@@ -12,6 +12,7 @@
 [ \t\n]          ;
 for {return FOR;}
 if {return IF;}
+print {return PRINT;}
 [0-9]+           { yylval.ival = atoi(yytext); return INT; }
 int {return INTDEC;};
 void {return VOIDDEC;};

@@ -26,9 +26,9 @@ void yyerror(const char* s);
 %token PLUS ASSIGN EQUALS
 %token INTDEC VOIDDEC
 %token SEMICOLON
-%token FOR IF
+%token FOR IF PRINT
 %type<tree> assign int identifier vardec statement expr stmt_list functype function_variables funcdef block funccall parameters funcdecl var
-%type<tree> for_loop if
+%type<tree> for_loop if print
 %left LE GE LT GT EQ NE
 %left '&' '|' '^'
 %left '+' '-'
@@ -51,6 +51,7 @@ statement:
 	 assign
 	 | vardec
 	 | expr
+	 | print
 
 ;
 for_loop:
@@ -60,6 +61,9 @@ for_loop:
 ;
 if:
 	IF '(' expr ')' '{' block '}' {$$=makeNode(T_IF,NULL,0,$3,$6,NULL);}
+;
+print:
+	PRINT '(' expr ')' {$$=makeNode(T_PRINT,NULL,0,$3,NULL);}
 ;
 vardec:
 	INTDEC identifier {$$=makeNode(T_VARDEC,NULL,0,makeNode(T_INTDEC,NULL,0,NULL,NULL),$2,NULL);}

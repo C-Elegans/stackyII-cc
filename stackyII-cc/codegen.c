@@ -22,6 +22,7 @@ i->op = opcode;		\
 i->data = instruction_data; \
 list = g_list_prepend(list,i); \
 }while(0)
+#define ERROR(str) do{ fprintf(stderr,str);exit(-1);} while(0)
 static GHashTable* globalvars;
 static GList* functions = NULL;
 static GHashTable* func_table;
@@ -66,13 +67,40 @@ gboolean generate_function(Node* tree, gpointer d){
 		case T_SUBTRACT:
 			add_inst(Sub, 0, data->list);
 			break;
+		case T_AND:
+			add_inst(And, 0, data->list);
+			break;
+		case T_OR:
+			add_inst(Or,0,data->list);
+			break;
+		case T_XOR:
+			add_inst(Xor, 0, data->list);
+			break;
+		case T_EQ:
+			add_inst(Eq,0,data->list);
+			break;
+		case T_NE:
+			ERROR("Unsupported instruction NE\n");
+			break;
+		case T_LE:
+			ERROR("Unsupported instruction LE\n");
+			break;
+		case T_GE:
+			ERROR("Unsupported instruction GE\n");
+			break;
+		case T_GT:
+			add_inst(Gt,0,data->list);
+			break;
+		case T_LT:
+			add_inst(Lt,0,data->list);
+			break;
+		case T_PRINT:
+			add_inst(Out,0,data->list);
+			break;
 		case T_VAR:{
 			Node* id_node = g_node_first_child(tree);
 			char* id = get_node_data(id_node)->data;
-			if(id==NULL){
-				fprintf(stderr, "Null ptr when dereferencing id!\n");
-				exit(-1);
-			}
+			if(id==NULL)ERROR("Null pointer when referencing id!\n");
 			int offset = GPOINTER_TO_INT( g_hash_table_lookup(data->vars, id));
 			add_inst(Local, offset, data->list);
 			break;
