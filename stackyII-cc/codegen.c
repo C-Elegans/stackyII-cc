@@ -63,7 +63,26 @@ gboolean generate_function(Node* tree, gpointer d){
 		case T_ADD:
 			add_inst(Add, 0, data->list);
 			break;
-		
+		case T_SUBTRACT:
+			add_inst(Sub, 0, data->list);
+			break;
+		case T_VAR:{
+			Node* id_node = g_node_first_child(tree);
+			char* id = get_node_data(id_node)->data;
+			if(id==NULL){
+				fprintf(stderr, "Null ptr when dereferencing id!\n");
+				exit(-1);
+			}
+			int offset = GPOINTER_TO_INT( g_hash_table_lookup(data->vars, id));
+			add_inst(Local, offset, data->list);
+			break;
+		}
+		case T_ASSIGN:{
+			char* id = get_node_data(g_node_first_child(tree))->data;
+			int offset = GPOINTER_TO_INT( g_hash_table_lookup(data->vars, id));
+			add_inst(Slocal, offset, data->list);
+			break;
+		}
 	  default:
 			break;
 	}
@@ -93,7 +112,8 @@ gboolean generate(Node* tree, gpointer d){
 		g_node_traverse(tree, G_POST_ORDER, G_TRAVERSE_ALL, -1, &extract_vardecs, &data);
 		add_inst(Frame, data.frame_pointer, data.list);
 		g_node_traverse(tree, G_POST_ORDER, G_TRAVERSE_ALL, -1, &generate_function, &data);
-		
+		add_inst(Leave, 0, data.list);
+		add_inst(Ret, 0, data.list);
 		g_hash_table_insert(func_table, id, data.list);
 		g_hash_table_insert(func_vars,id,data.vars);
 	}else{
@@ -113,16 +133,16 @@ void item_print(gpointer data, gpointer d){
 	instruction* inst = (instruction*) data;
 	enum asm_op op = inst->op;
 	if(op == Push||op == Local||op==Slocal||op==Frame){
-		printf("%s %d\n",asm_op_name_table[inst->op],inst->data);
+		printf("\t%s %d\n",asm_op_name_table[inst->op],inst->data);
 	}else{
-		printf("%s\n",asm_op_name_table[inst->op]);
+		printf("\t%s\n",asm_op_name_table[inst->op]);
 	}
 }
 void func_print(gpointer data, gpointer d){
 	char* id = data;
 	GList* func = g_hash_table_lookup(func_table, id);
 	func = g_list_reverse(func);
-	printf("Func: %s\n",id);
+	printf("%s:\n",id);
 	g_list_foreach(func, &item_print, NULL);
 }
 void print_code(){
