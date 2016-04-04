@@ -62,7 +62,7 @@ if:
 	IF '(' expr ')' '{' block '}' {$$=makeNode(T_IF,NULL,0,$3,$6,NULL);}
 ;
 vardec:
-	INTDEC var {$$=makeNode(T_VARDEC,NULL,0,makeNode(T_INTDEC,NULL,0,NULL,NULL),$2,NULL);}
+	INTDEC identifier {$$=makeNode(T_VARDEC,NULL,0,makeNode(T_INTDEC,NULL,0,NULL,NULL),$2,NULL);}
 ;
 assign:
 	INTDEC identifier EQUALS expr {Node* id = $2;$$=makeNode(T_HEAD,NULL,0,makeNode(T_VARDEC,NULL,0,makeNode(T_INTDEC,NULL,0,NULL),g_node_copy(id),NULL),

@@ -58,7 +58,7 @@ ENUM_END(n_type)
 
 #include <stdio.h>
 #include <glib.h>
-
+#define get_node_data(node) ((node_data*)(node->data))
 typedef enum n_type nodetype;
 
 typedef GNode Node;
