@@ -43,5 +43,6 @@ void process_tree(Node* tree){
 	print_node(tree, 0);
 	primary_codegen(tree);
 	print_code();
+	delete_code();
 	g_node_destroy(tree);
 }

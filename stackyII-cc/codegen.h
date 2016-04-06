@@ -20,6 +20,7 @@
 
 void print_code();
 void primary_codegen(Node* tree);
+void delete_code();
 typedef enum{F_VOLATILE=1} var_flags;
 #endif /* codegen_h */
 ENUM_BEGIN( asm_op )

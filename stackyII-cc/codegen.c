@@ -177,3 +177,14 @@ void print_code(){
 	g_list_foreach(instructions, &item_print, NULL);
 	g_list_foreach(functions, &func_print, NULL);
 }
+void delete_inst(gpointer data, gpointer d){
+	free(data);
+}
+void delete_func(gpointer data, gpointer d){
+	g_list_foreach(g_hash_table_lookup(func_table, data), &delete_inst, NULL);
+	
+	
+}
+void delete_code(){
+	g_list_foreach(functions, &delete_func, NULL);
+}
