@@ -22,6 +22,12 @@ i->op = opcode;		\
 i->data = instruction_data; \
 list = g_list_prepend(list,i); \
 }while(0)
+#define add_inst_jmp(opcode,target,list) do{  \
+instruction* i = malloc(sizeof(instruction)); \
+i->op = opcode;		\
+i->jump_target = target; \
+list = g_list_prepend(list,i); \
+}while(0)
 #define ERROR(str) do{ fprintf(stderr,str);exit(-1);} while(0)
 static GHashTable* globalvars;
 static GList* functions = NULL;
@@ -29,9 +35,10 @@ static GHashTable* func_table;
 static GHashTable* func_vars;
 GList* instructions = NULL;
 typedef struct{
+	GList* jump_target;
 	enum asm_op op;
-	uint16_t data;
 	int flags;
+	uint16_t data;
 }instruction;
 typedef struct{
 	GList* list;
@@ -109,6 +116,12 @@ gboolean generate_function(Node* tree, gpointer d){
 			char* id = get_node_data(g_node_first_child(tree))->data;
 			int offset = GPOINTER_TO_INT( g_hash_table_lookup(data->vars, id));
 			add_inst(Slocal, offset, data->list);
+			break;
+		}
+		case T_FUNCCALL:{
+			char* id = get_node_data(g_node_first_child(tree))->data;
+			GList* func = g_hash_table_lookup(func_table, id);
+			add_inst_jmp(Call, func, data->list);
 			break;
 		}
 	  default:

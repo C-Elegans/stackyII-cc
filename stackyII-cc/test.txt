@@ -1,7 +1,6 @@
 int x=1;
 void main(int a){
-	a=1;
-	a++;
+	test();
 }
 void test(){
 	int r=3;
