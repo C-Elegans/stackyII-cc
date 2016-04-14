@@ -17,7 +17,7 @@
 #define ENUM_END(typ) };
 
 
-
+void write_to_file(FILE*);
 void print_code();
 void primary_codegen(Node* tree);
 void delete_code();

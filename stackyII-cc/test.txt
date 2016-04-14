@@ -1,11 +1,13 @@
 int x=1;
-void main(int a){
-	test();
-}
+void test();
 void test(){
-	int r=3;
-	int i=2;
-	int p=4;
-	print(p);
-	p--;
+int r=3;
+int i=2;
+int p=4;
+print(p);
+p--;
+}
+void main(int a){
+	a=1;
+	test();
 }

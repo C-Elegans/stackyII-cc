@@ -42,7 +42,10 @@ void process_tree(Node* tree){
 	optimize_tree(tree);
 	print_node(tree, 0);
 	primary_codegen(tree);
-	print_code();
-	delete_code();
+	//print_code();
+	write_to_file(NULL);
+	//print_code();
+	
+	//delete_code();
 	g_node_destroy(tree);
 }
